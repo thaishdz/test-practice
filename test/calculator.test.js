@@ -20,17 +20,21 @@ describe('String Calculator', function () {
   });
   test('Test#4 - Support Different Delimiters', function () {
     let calculator = new Calculator();
-    expect(calculator.add("//;\n1;2")).toBe(3);
+    expect(calculator.add("//;\n1;2")).toBe(3); // //[delimiter]\n[numbers…]
   });
   test('Test#5 - Negatives Numbers', function () {
     let calculator = new Calculator();
     expect(() => {
-      calculator.add('-5');
+      calculator.add('1,-5,-2');
     }).toThrow();
   });
   test('Test#6 - Numbers bigger than 1000 should be ignored', function () {
     let calculator = new Calculator();
     expect(calculator.add("2,1001")).toBe(2);
+  });
+  test('Test#7 - Delimiters can be of any length', function () {
+    let calculator = new Calculator();
+    expect(calculator.add("//[***]\n1***2***3")).toBe(6);
   });
 });
 

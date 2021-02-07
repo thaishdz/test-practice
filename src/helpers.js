@@ -1,48 +1,100 @@
+/**
+ * Passes string elements to numbers
+ * @param {string} arrString
+ */
 
+const StringToNumber = (arrString) => {
+	const arrNumbers = [];
 
-export const StringToNumber = (string) => {
-  return parseInt(string);
-}
+	arrString.forEach((string) => {
+		arrNumbers.push(parseInt(string));
+	});
+
+	return arrNumbers;
+};
+
+/**
+ * Checks if there's a empty string
+ * @param {*} string
+ */
 
 export const isEmptyString = (string) => {
-
 	return string != "" ? true : false;
-}
+};
 
+/**
+ * Converts a string to array of string elements
+ * @param {string} expression
+ */
 export const convertToArray = (expression) => {
-	const regex = /;|\n|,/g;
+	let numbers = [];
+	const regexDelimiterDefault = /\n|,/g;
 
-	if (expression.startsWith('//')) {
-
-		expression = expression.substring(expression.indexOf('\n')).trim();
+	if (expression.startsWith("//")) {
+		numbers = getExpressionCustomDelimiter(expression);
+	} else {
+		numbers = StringToNumber(expression.split(regexDelimiterDefault));
 	}
 
-	return expression.split(regex);
+	checkNegativeNumber(numbers);
+
+	return numbers;
+};
+
+function getExpressionCustomDelimiter(expression) {
+	const customDelimiter = getCustomDelimiter(expression);
+	expression = expression.substring(expression.indexOf("\n")).trim(); // 1;2
+	return StringToNumber(expression.split(customDelimiter));
 }
 
+function getCustomDelimiter(expression) {
+	let delimiter = "";
+	delimiter = expression
+		.substring(expression.indexOf(expression.charAt(2)), expression.indexOf("\n"))
+		.trim(); // [***] or ;
 
-export const checkNegativeNumber = (arrayStringNumbers) => {
+	if (delimiter.length > 1) { // means multiple delimiter
+		return delimiter.substring(1,delimiter.length-1);
+	}
 
-	const arrayNumbers = arrayStringNumbers.map((element) =>{
+	return delimiter;
+}
 
-		const number = StringToNumber(element);
+/**
+ * Check if there's any negative number
+ * @param {int} arrayNumbers
+ */
 
-		if (number > 0) {
-			return number;
-		}else{
-			throw new NegativeNumberException(number);
+export const checkNegativeNumber = (arrayNumbers) => {
+	const negativesNumbersArr = []; // for showing multiple negative numbers
+
+	arrayNumbers.forEach((number) => {
+		if (number < 0) {
+			negativesNumbersArr.push(number);
 		}
-	})
-	return arrayNumbers;
+	});
 
+	if (negativesNumbersArr.length) {
+		throw new NegativeNumberException(negativesNumbersArr);
+	}
+};
+
+/**
+ * Triggered this exception if there's any negative number
+ * @param {*} negativeNumbers
+ */
+
+function NegativeNumberException(negativeNumbers) {
+	return new Error(`negatives not allowed-> ${negativeNumbers.join(", ")}`);
 }
 
+export function calculateSum(arrayNumbers) {
+	let result = 0;
 
-
-function NegativeNumberException(number) {
-	return new Error(`negatives not allowed-> ${number}`);
+	for (let i = 0; i < arrayNumbers.length; i++) {
+		if (arrayNumbers[i] <= 1000) {
+			result += arrayNumbers[i];
+		}
+	}
+	return result;
 }
-
-
-
-
