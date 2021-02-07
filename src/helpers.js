@@ -43,18 +43,28 @@ export const convertToArray = (expression) => {
 
 function getExpressionCustomDelimiter(expression) {
 	const customDelimiter = getCustomDelimiter(expression);
-	expression = expression.substring(expression.indexOf("\n")).trim(); // 1;2
-	return StringToNumber(expression.split(customDelimiter));
+	expression = expression.substring(expression.indexOf("\n")).trim();
+
+
+	for (let i = 0; i < customDelimiter.length; i++) {
+		console.log(customDelimiter[i]);
+		expression = expression.split(customDelimiter[i]).join();
+	}
+	return StringToNumber(expression.split(","));
 }
 
 function getCustomDelimiter(expression) {
 	let delimiter = "";
 	delimiter = expression
-		.substring(expression.indexOf(expression.charAt(2)), expression.indexOf("\n"))
-		.trim(); // [***] or ;
+		.substring(
+			expression.indexOf(expression.charAt(2)),
+			expression.indexOf("\n")
+		)
+		.trim();
 
-	if (delimiter.length > 1) { // means multiple delimiter
-		return delimiter.substring(1,delimiter.length-1);
+	if (delimiter.length > 1) {
+		// means multiple delimiter
+		return delimiter.substring(1, delimiter.length - 1).split("][");
 	}
 
 	return delimiter;
@@ -65,7 +75,7 @@ function getCustomDelimiter(expression) {
  * @param {int} arrayNumbers
  */
 
-export const checkNegativeNumber = (arrayNumbers) => {
+const checkNegativeNumber = (arrayNumbers) => {
 	const negativesNumbersArr = []; // for showing multiple negative numbers
 
 	arrayNumbers.forEach((number) => {

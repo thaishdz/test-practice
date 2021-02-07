@@ -36,5 +36,9 @@ describe('String Calculator', function () {
     let calculator = new Calculator();
     expect(calculator.add("//[***]\n1***2***3")).toBe(6);
   });
+  test('Test#8 - Allow multiple delimiters', function () {
+    let calculator = new Calculator();
+    expect(calculator.add("//[*][%]\n1*2%3")).toBe(6);
+  });
 });
 
