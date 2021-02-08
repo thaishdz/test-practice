@@ -37,24 +37,29 @@ function hasCustomDelimiter(expression) {
 	return expression.startsWith("//") ? true : false;
 }
 
+/**
+ * if there is no a custom delimiter into the expression
+ * then applies the default delimiter
+ * @param {string} expression
+ */
 function getExpressionDefaultDelimiter(expression) {
-	const regexDelimiterDefault = /\n|,/g;
+	const regexDelimiterDefault = /\n|,/g; // default delimiter is ","
 	return StringToNumber(expression.split(regexDelimiterDefault));
 }
 
 function getExpressionCustomDelimiter(expression) {
 	const customDelimiter = getCustomDelimiter(expression);
-	expression = expression.substring(expression.indexOf("\n")).trim();
+	expression = expression.substring(expression.indexOf("\n")).trim(); // the expression that I want is after \n Ej. : \n1*2%3
 
 	for (let i = 0; i < customDelimiter.length; i++) {
-		expression = expression.split(customDelimiter[i]).join();
+		expression = expression.split(customDelimiter[i]).join(); // if there's multiple delimiters I loop through them
 	}
 	return StringToNumber(expression.split(",")); // converts again into array [1,2,3]
 }
 
 function getCustomDelimiter(expression) {
 	let delimiter = "";
-	delimiter = expression
+	delimiter = expression // get custom delimiter in the expression
 		.substring(
 			expression.indexOf(expression.charAt(2)),
 			expression.indexOf("\n")
