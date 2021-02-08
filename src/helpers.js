@@ -47,7 +47,6 @@ function getExpressionCustomDelimiter(expression) {
 	expression = expression.substring(expression.indexOf("\n")).trim();
 
 	for (let i = 0; i < customDelimiter.length; i++) {
-		console.log(customDelimiter[i]);
 		expression = expression.split(customDelimiter[i]).join();
 	}
 	return StringToNumber(expression.split(",")); // converts again into array [1,2,3]
@@ -99,7 +98,6 @@ function NegativeNumberException(negativeNumbers) {
 }
 
 export function calculateSum(arrayNumbers) {
-	console.log(arrayNumbers);
 	let result = 0;
 
 	for (let i = 0; i < arrayNumbers.length; i++) {
