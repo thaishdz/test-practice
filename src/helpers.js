@@ -26,31 +26,31 @@ export const isEmptyString = (string) => {
  * Converts a string to array of string elements
  * @param {string} expression
  */
-export const convertToArray = (expression) => {
-	let numbers = [];
-	const regexDelimiterDefault = /\n|,/g;
-
-	if (expression.startsWith("//")) {
-		numbers = getExpressionCustomDelimiter(expression);
-	} else {
-		numbers = StringToNumber(expression.split(regexDelimiterDefault));
+export const convertToArrayNumbers = (expression) => {
+	if (hasCustomDelimiter(expression)) {
+		return getExpressionCustomDelimiter(expression);
 	}
-
-	checkNegativeNumber(numbers);
-
-	return numbers;
+	return getExpressionDefaultDelimiter(expression);
 };
+
+function hasCustomDelimiter(expression) {
+	return expression.startsWith("//") ? true : false;
+}
+
+function getExpressionDefaultDelimiter(expression) {
+	const regexDelimiterDefault = /\n|,/g;
+	return StringToNumber(expression.split(regexDelimiterDefault));
+}
 
 function getExpressionCustomDelimiter(expression) {
 	const customDelimiter = getCustomDelimiter(expression);
 	expression = expression.substring(expression.indexOf("\n")).trim();
 
-
 	for (let i = 0; i < customDelimiter.length; i++) {
 		console.log(customDelimiter[i]);
 		expression = expression.split(customDelimiter[i]).join();
 	}
-	return StringToNumber(expression.split(","));
+	return StringToNumber(expression.split(",")); // converts again into array [1,2,3]
 }
 
 function getCustomDelimiter(expression) {
@@ -75,17 +75,17 @@ function getCustomDelimiter(expression) {
  * @param {int} arrayNumbers
  */
 
-const checkNegativeNumber = (arrayNumbers) => {
+export const checkNegativeNumber = (arrayNumbers) => {
 	const negativesNumbersArr = []; // for showing multiple negative numbers
 
 	arrayNumbers.forEach((number) => {
-		if (number < 0) {
-			negativesNumbersArr.push(number);
-		}
+		if (number < 0) negativesNumbersArr.push(number);
 	});
 
 	if (negativesNumbersArr.length) {
 		throw new NegativeNumberException(negativesNumbersArr);
+	} else {
+		return arrayNumbers;
 	}
 };
 
@@ -99,6 +99,7 @@ function NegativeNumberException(negativeNumbers) {
 }
 
 export function calculateSum(arrayNumbers) {
+	console.log(arrayNumbers);
 	let result = 0;
 
 	for (let i = 0; i < arrayNumbers.length; i++) {
