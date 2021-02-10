@@ -4,13 +4,13 @@
  */
 
 const StringToNumber = (arrString) => {
-	const arrNumbers = [];
+  const arrNumbers = [];
 
-	arrString.forEach((string) => {
-		arrNumbers.push(parseInt(string));
-	});
+  arrString.forEach((string) => {
+    arrNumbers.push(parseInt(string));
+  });
 
-	return arrNumbers;
+  return arrNumbers;
 };
 
 /**
@@ -19,7 +19,7 @@ const StringToNumber = (arrString) => {
  */
 
 export const isEmptyString = (string) => {
-	return string != "" ? true : false;
+  return string != "" ? true : false;
 };
 
 /**
@@ -27,14 +27,14 @@ export const isEmptyString = (string) => {
  * @param {string} expression
  */
 export const convertToArrayNumbers = (expression) => {
-	if (hasCustomDelimiter(expression)) {
-		return getExpressionCustomDelimiter(expression);
-	}
-	return getExpressionDefaultDelimiter(expression);
+  if (hasCustomDelimiter(expression)) {
+    return getExpressionCustomDelimiter(expression);
+  }
+  return getExpressionDefaultDelimiter(expression);
 };
 
 function hasCustomDelimiter(expression) {
-	return expression.startsWith("//") ? true : false;
+  return expression.startsWith("//") ? true : false;
 }
 
 /**
@@ -43,35 +43,35 @@ function hasCustomDelimiter(expression) {
  * @param {string} expression
  */
 function getExpressionDefaultDelimiter(expression) {
-	const regexDelimiterDefault = /\n|,/g; // default delimiter is ","
-	return StringToNumber(expression.split(regexDelimiterDefault));
+  const regexDelimiterDefault = /\n|,/g; // default delimiter is ","
+  return StringToNumber(expression.split(regexDelimiterDefault));
 }
 
 function getExpressionCustomDelimiter(expression) {
-	const customDelimiter = getCustomDelimiter(expression);
-	expression = expression.substring(expression.indexOf("\n")).trim(); // the expression that I want is after \n Ej. : \n1*2%3
+  const customDelimiter = getCustomDelimiter(expression);
+  expression = expression.substring(expression.indexOf("\n")).trim(); // the expression that I want is after \n Ej. : \n1*2%3
 
-	for (let i = 0; i < customDelimiter.length; i++) {
-		expression = expression.split(customDelimiter[i]).join(); // if there's multiple delimiters I loop through them
-	}
-	return StringToNumber(expression.split(",")); // converts again into array [1,2,3]
+  for (let i = 0; i < customDelimiter.length; i++) {
+    expression = expression.split(customDelimiter[i]).join(); // if there's multiple delimiters I loop through them
+  }
+  return StringToNumber(expression.split(",")); // converts again into array [1,2,3]
 }
 
 function getCustomDelimiter(expression) {
-	let delimiter = "";
-	delimiter = expression // get custom delimiter in the expression
-		.substring(
-			expression.indexOf(expression.charAt(2)),
-			expression.indexOf("\n")
-		)
-		.trim();
+  let delimiter = "";
+  delimiter = expression // get custom delimiter in the expression
+    .substring(
+      expression.indexOf(expression.charAt(2)),
+      expression.indexOf("\n")
+    )
+    .trim();
 
-	if (delimiter.length > 1) {
-		// means multiple delimiter
-		return delimiter.substring(1, delimiter.length - 1).split("][");
-	}
+  if (delimiter.length > 1) {
+    // means multiple delimiter
+    return delimiter.substring(1, delimiter.length - 1).split("][");
+  }
 
-	return delimiter;
+  return delimiter;
 }
 
 /**
@@ -80,17 +80,17 @@ function getCustomDelimiter(expression) {
  */
 
 export const checkNegativeNumber = (arrayNumbers) => {
-	const negativesNumbersArr = []; // for showing multiple negative numbers
+  const negativesNumbersArr = []; // for showing multiple negative numbers
 
-	arrayNumbers.forEach((number) => {
-		if (number < 0) negativesNumbersArr.push(number);
-	});
+  arrayNumbers.forEach((number) => {
+    if (number < 0) negativesNumbersArr.push(number);
+  });
 
-	if (negativesNumbersArr.length) {
-		throw new NegativeNumberException(negativesNumbersArr);
-	} else {
-		return arrayNumbers;
-	}
+  if (negativesNumbersArr.length) {
+    throw new NegativeNumberException(negativesNumbersArr);
+  } else {
+    return arrayNumbers;
+  }
 };
 
 /**
@@ -99,16 +99,16 @@ export const checkNegativeNumber = (arrayNumbers) => {
  */
 
 function NegativeNumberException(negativeNumbers) {
-	return new Error(`negatives not allowed-> ${negativeNumbers.join(", ")}`);
+  return new Error(`negatives not allowed-> ${negativeNumbers.join(", ")}`);
 }
 
 export function calculateSum(arrayNumbers) {
-	let result = 0;
+  let result = 0;
 
-	for (let i = 0; i < arrayNumbers.length; i++) {
-		if (arrayNumbers[i] <= 1000) {
-			result += arrayNumbers[i];
-		}
-	}
-	return result;
+  for (let i = 0; i < arrayNumbers.length; i++) {
+    if (arrayNumbers[i] <= 1000) {
+      result += arrayNumbers[i];
+    }
+  }
+  return result;
 }
