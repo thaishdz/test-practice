@@ -1,5 +1,7 @@
 # String calculator - TDD Kata
 
+Esta kata se basa en comprobar los test para ejecutarlos simplemente hacer : ```npm run test```
+
 1. Create a simple String calculator with a method signature:
 
 	```int Add(string numbers)```

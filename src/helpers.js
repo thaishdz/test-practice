@@ -3,7 +3,7 @@
  * @param {string} arrString
  */
 
-const StringToNumber = (arrString) => {
+const stringToNumber = (arrString) => {
   const arrNumbers = [];
 
   arrString.forEach((string) => {
@@ -44,7 +44,7 @@ function hasCustomDelimiter(expression) {
  */
 function getExpressionDefaultDelimiter(expression) {
   const regexDelimiterDefault = /\n|,/g; // default delimiter is ","
-  return StringToNumber(expression.split(regexDelimiterDefault));
+  return stringToNumber(expression.split(regexDelimiterDefault));
 }
 
 function getExpressionCustomDelimiter(expression) {
@@ -52,9 +52,9 @@ function getExpressionCustomDelimiter(expression) {
   expression = expression.substring(expression.indexOf("\n")).trim(); // the expression that I want is after \n Ej. : \n1*2%3
 
   for (let i = 0; i < customDelimiter.length; i++) {
-    expression = expression.split(customDelimiter[i]).join(); // if there's multiple delimiters I loop through them
+    expression = expression.split(customDelimiter[i]).join(); // if there's multiple delimiters I loop through them 1,2,3
   }
-  return StringToNumber(expression.split(",")); // converts again into array [1,2,3]
+  return stringToNumber(expression.split(',')); // converts again into array [1,2,3]
 }
 
 function getCustomDelimiter(expression) {
@@ -88,10 +88,9 @@ export const checkNegativeNumber = (arrayNumbers) => {
 
   if (negativesNumbersArr.length) {
     throw new NegativeNumberException(negativesNumbersArr);
-  } else {
-    return arrayNumbers;
   }
 };
+
 
 /**
  * Triggered this exception if there's any negative number
